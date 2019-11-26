@@ -44,7 +44,7 @@ Would be called as:
 
 With the following output:  
 
-![Univariable example](exampleImages/univariable.png)
+![Univariable example](https://raw.githubusercontent.com/partone/Gradient-Descent-in-Racket/master/exampleImages/univariable.PNG)
 <br/><br/>
 ### Multivariable
 
@@ -74,7 +74,7 @@ Would be called as:
 
 With the following output:  
 
-![Multivariable example](exampleImages/multivariable.png)
+![Multivariable example](https://raw.githubusercontent.com/partone/Gradient-Descent-in-Racket/master/exampleImages/multivariable.PNG)
 <br/><br/>  
 ## Additional Comments
 
