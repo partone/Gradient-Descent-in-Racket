@@ -1,5 +1,9 @@
-;Andrés Campos
 ;Eric Parton
+
+
+;Interesting examples
+;(runGradientDescent 5 (list 5 0 1 3 2 0 0 0 0 0) .001 100000)
+;(runGradientDescent3D 100 100 (list 0 0 1 0 1 0 0 0 0) .01 1000)
 
 #lang racket
 (require plot)
@@ -95,7 +99,7 @@
        (display (calculateFunctionVal xn a b c d e f g h i j))
        (display ") after ")
        (display iterations)
-       (display " iterations")
+       (display " iterations\n")
        (plotGradientDescent a b c d e f g h i j xpoints ypoints)]
       ;If it's gone over the iteration limit
       [(> iterations iterationsLimit) (display "Function did not converge, try more iterations or change the learning rate")]
@@ -238,25 +242,23 @@
         [xn (gradientIteration3D xi alpha dxm)]
         [yn (gradientIteration3D yi alpha dym)]
         )
-    
-    
+
     ;Check how the algorithm is doing
     (cond
       ;If the difference between the old x and new x is small (algorithm has converged), the minimum has been found
       ;If the minimum has been found, plot the function with the min found
       ;The minimum is found when deltay^2 + deltax^2 < .001
-      [(< (+ (expt (- yn yi) 1) (expt (- xn xi) 1)) .001)
+      [(< (+ (expt (- yn yi) 2) (expt (- xn xi) 2)) .00000001)
        (display "Convergence at (")
        (display xn)
        (display ", ")
        (display yn)
        (display ", ")
-       (display (calculateFunctionVal xn yn a b c d e f g h i))
+       (display (calculateFunctionVal3D xn yn a b c d e f g h i))
        (display ") after ")
        (display iterations)
-       (display " iterations")
-       ;(plotGradientDescent a b c d e f g h i xpoints ypoints zpoints)]
-       ]
+       (display " iterations\n")
+       (plotGradientDescent3D a b c d e f g h i xpoints ypoints zpoints)]
       ;If it's gone over the iteration limit
       [(> iterations iterationsLimit) (display "Function did not converge, try more iterations or change the learning rate")]
       ;Otherwise, go to the next iteration with the new points added to the lists
@@ -265,11 +267,12 @@
     )
   )
 
-(define (plotGradientDescent3D a b c d e f g h i xs ys)
+(define (plotGradientDescent3D a b c d e f g h i xs ys zs)
   ;Plot the points that the gradient descent took along with the graph
-  ;X range is x - 10 to x + 10
-  (plot (list (function-interval (λ (x) 0) (λ (x) (+ (* (expt x 0) a) (* (expt x 1) b) (* (expt x 2) c) (* (expt x 3) d) (* (expt x 4) e) (*(expt x 5) f) (* (expt x 6) g) (* (expt x 7) h) (*(expt x 8) i))) (- (last xs) 10) (+ (last xs) 10))
-              (points (map vector xs ys) #:color 'red)))
+  (plot3d (list (surface3d (λ (x y) (+ a (* b x) (* c (expt x 2)) (* d y) (* e (expt y 2)) (* f x y) (* g (expt x 2) y) (* h x (expt y 2)) (* i (expt x 2) (expt y 2))))
+                     (- (last xs) 20) (+ (last xs) 20) (- (last ys) 20) (+ (last ys) 20))
+                (points3d (map vector xs ys zs) #:color 'red)
+                ))
   )
 
 ;Calculate the new x value based on some stuff
@@ -279,18 +282,6 @@
 
 ;Calculate a function given x, y and its parameters
 (define (calculateFunctionVal3D x y a b c d e f g h i)
-  (display c)
-  (display "\n")
-  (display e)
-  (display "\n")
-  (display (expt x 2))
-  (display "\n")
-  (display (expt y 2))
-  (display "\n")
-  (display (* c (expt x 2)))
-  (display "\n")
-  (display (* e (expt y 2)))
-  (display "\n")
   (+ a (* b x) (* c (expt x 2)) (* d y) (* e (expt y 2)) (* f x y) (* g (expt x 2) y) (* h x (expt y 2)) (* i (expt x 2) (expt y 2)))
   )
 
