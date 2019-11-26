@@ -3,7 +3,7 @@
 
 ;Interesting examples
 ;(runGradientDescent 5 (list 5 0 1 3 2 0 0 0 0 0) .001 100000)
-;(runGradientDescent3D 100 100 (list 0 0 1 0 1 0 0 0 0) .01 1000)
+;(runGradientDescent3D 10 10 (list 3 2 1 2 1 0 0 0 0) .01 1000)
 
 #lang racket
 (require plot)
@@ -92,7 +92,7 @@
     (cond
       ;If the difference between the old x and new x is small (algorithm has converged), the minimum has been found
       ;If the minimum has been found, plot the function with the min found
-      [(< (expt (- xn xi) 2) .001)
+      [(< (expt (- xn xi) 2) .00000001)
        (display "Convergence at (")
        (display xn)
        (display ", ")
